@@ -1,4 +1,4 @@
-# マイアプリ テンプレート
+# マイアプリ テンプレート(複数アプリ対応版）
 
 よく使うWebサイトやSNS、動画、地図などを、スマホのアプリ画面のようにまとめられるHTMLテンプレートです。
 
@@ -109,7 +109,7 @@ https://ユーザー名.github.io/リポジトリ名/
 画像を`images`フォルダへ追加した場合は、次のようにファイル名を指定できます。
 
 ```html
-<meta name="ojapp:icon" content="./images/icon.webp">
+<meta name="ojapp:icon" content="../images/icon.webp">
 ```
 画像サイズが大きい場合、重たくなったり表示遅れや表示されない場合があります。
 
