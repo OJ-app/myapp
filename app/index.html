@@ -2,7 +2,6 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <meta
   name="viewport"
@@ -13,8 +12,6 @@
   name="apple-mobile-web-app-status-bar-style"
   content="default"
 >
-
-<meta name="theme-color" content="#800000">
   <!-- =========================================================
     【編集 1/4】アプリ名・説明・ホーム画面アイコン
     icon は正方形画像のURL推奨（512×512pxがおすすめ）
@@ -35,21 +32,45 @@
       下の色コードを変えるだけで全体の雰囲気を変更できます
     ========================================================== */
     :root {
-      --bg-start: #f9f7ff;
-      --bg-end: #800000;
-      --text: #242333;
-      --muted: #777489;
-      --accent: #7658e8;
-      --accent-soft: #ece7ff;
-      --panel: rgba(255, 255, 255, 0.72);
-      --line: rgba(71, 57, 116, 0.10);
-      --shadow: 0 18px 45px rgba(69, 54, 120, 0.13);
-      --radius: 30px;
-    }
+  --status-bar-bg: #f4f1ff;
+
+  --bg-start: #f9f7ff;
+  --bg-end: #800000;
+  --text: #242333;
+  --muted: #777489;
+  --accent: #7658e8;
+  --accent-soft: #ece7ff;
+  --panel: rgba(255, 255, 255, 0.72);
+  --line: rgba(71, 57, 116, 0.10);
+  --shadow: 0 18px 45px rgba(69, 54, 120, 0.13);
+  --radius: 30px;
+}
+
+html {
+  min-height: 100%;
+  background: var(--status-bar-bg);
+}
+
+/* iPhone PWAのステータスバー下を単色で覆う */
+@media (display-mode: standalone) {
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: env(safe-area-inset-top);
+    background: var(--status-bar-bg);
+    z-index: 999999;
+    pointer-events: none;
+  }
+
+  .tip {
+    display: none;
+  }
+}
 
     * { box-sizing: border-box; }
-
-    html { min-height: 100%; background: var(--bg-end); }
 
     body {
       margin: 0;
@@ -238,10 +259,7 @@
       .app-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
 
-    /* ホーム画面からアプリとして開いた時は、追加案内を非表示 */
-    @media (display-mode: standalone) {
-      .tip { display: none; }
-    }
+    /* ホーム画面からアプリとして開いた時は、追加案内を */
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
