@@ -51,18 +51,20 @@ html {
   background: var(--status-bar-bg);
 }
 
-/* iPhone PWAのステータスバー下を単色で覆う */
+.status-bar-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: env(safe-area-inset-top);
+  background: #f4f1ff;
+  z-index: 999999;
+  pointer-events: none;
+}
+
 @media (display-mode: standalone) {
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: env(safe-area-inset-top);
-    background: var(--status-bar-bg);
-    z-index: 999999;
-    pointer-events: none;
+  .app-shell {
+    /* status-bar-headerがセーフエリアを確保するので二重に空けない */
+    padding-top: 28px;
   }
 
   .tip {
@@ -268,6 +270,8 @@ html {
 </head>
 
 <body>
+  <div class="status-bar-header" aria-hidden="true"></div>
+
   <main class="app-shell">
     <header class="hero">
       <!-- =====================================================
