@@ -2,26 +2,18 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1, viewport-fit=cover"
->
-
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="default"
->
   <!-- =========================================================
     【編集 1/4】アプリ名・説明・ホーム画面アイコン
     icon は正方形画像のURL推奨（512×512pxがおすすめ）
   ========================================================== -->
   <title>マイホーム アプリ</title>
   <link id="favicon" rel="icon" href="../images/myapp-icon-512.png">
-  
+  
   <meta name="ojapp:title" content="マイアプリ">
   <meta name="ojapp:icon" content="../images/myapp-icon-512.png">
-  <meta name="theme-color" content="#f4f166">
+  <meta name="theme-color" content="#f4f1ff">
 
   <!-- OJapp Free：この1行で、このページをホーム画面アプリにします -->
   <script src="https://ojapp.app/js/ojapp_1p1a.js"></script>
@@ -32,47 +24,21 @@
       下の色コードを変えるだけで全体の雰囲気を変更できます
     ========================================================== */
     :root {
-  --status-bar-bg: #f4f166;
-
-  --bg-start: #f9f7ff;
-  --bg-end: #800000;
-  --text: #242333;
-  --muted: #777489;
-  --accent: #7658e8;
-  --accent-soft: #ece7ff;
-  --panel: rgba(255, 255, 255, 0.72);
-  --line: rgba(71, 57, 116, 0.10);
-  --shadow: 0 18px 45px rgba(69, 54, 120, 0.13);
-  --radius: 30px;
-}
-
-html {
-  min-height: 100%;
-  background: var(--status-bar-bg);
-}
-
-.status-bar-header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: env(safe-area-inset-top);
-  background: #f4f1ff;
-  z-index: 999999;
-  pointer-events: none;
-}
-
-@media (display-mode: standalone) {
-  .app-shell {
-    /* status-bar-headerがセーフエリアを確保するので二重に空けない */
-    padding-top: 28px;
-  }
-
-  .tip {
-    display: none;
-  }
-}
+      --bg-start: #f9f7ff;
+      --bg-end: #edf4ff;
+      --text: #242333;
+      --muted: #777489;
+      --accent: #7658e8;
+      --accent-soft: #ece7ff;
+      --panel: rgba(255, 255, 255, 0.72);
+      --line: rgba(71, 57, 116, 0.10);
+      --shadow: 0 18px 45px rgba(69, 54, 120, 0.13);
+      --radius: 30px;
+    }
 
     * { box-sizing: border-box; }
+
+    html { min-height: 100%; background: var(--bg-end); }
 
     body {
       margin: 0;
@@ -261,7 +227,10 @@ html {
       .app-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
 
-    /* ホーム画面からアプリとして開いた時は、追加案内を */
+    /* ホーム画面からアプリとして開いた時は、追加案内を非表示 */
+    @media (display-mode: standalone) {
+      .tip { display: none; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -270,8 +239,6 @@ html {
 </head>
 
 <body>
-  <div class="status-bar-header" aria-hidden="true"></div>
-
   <main class="app-shell">
     <header class="hero">
       <!-- =====================================================
@@ -302,44 +269,6 @@ html {
   </main>
 
   <script>
-  
-document.addEventListener("DOMContentLoaded", () => {
-const isStandalone =
-matchMedia("(display-mode: standalone)").matches ||
-navigator.standalone === true;
-if (!isStandalone || !/iPhone|iPad|iPod/.test(navigator.userAgent)) return;
-// Inject CSS
-const style = document.createElement("style");
-style.textContent = `
-#ojapp-blur-cover {
-display: none; position: fixed; inset: 0; z-index: 2147483646;
-background: rgba(255,255,255,0.01); pointer-events: none;
-animation: ojapp-cover-fade 0.3s;
-}
-#ojapp-blur-panel {
-position: fixed; top: 0; right: 0; bottom: 0; width: 90%; height: 100%;
-z-index: 2147483647; background: rgba(255,255,255,0.01);
-pointer-events: none; transform: translateX(110%); transition: transform 0.3s;
-}
-@/keyframes ojapp-cover-fade { from { opacity: 0; } to { opacity: 1; } }
-`;
-document.head.appendChild(style);
-// Create DOM & force reflow
-const cover = document.createElement("div");
-cover.id = "ojapp-blur-cover";
-const panel = document.createElement("div");
-panel.id = "ojapp-blur-panel";
-document.body.append(cover, panel);
-void panel.offsetWidth; // Force reflow
-requestAnimationFrame(() => {
-cover.style.display = "block";
-panel.style.transform = "translateX(0%)";
-setTimeout(() => {
-cover.style.display = "none";
-panel.style.transform = "translateX(110%)";
-}, 500);
-});
-});
     /* =========================================================
       【編集 4/4】表示するアプリ
 
